@@ -6,9 +6,7 @@ The code consists of importing pandas, matplotlib as well as using the datasets 
 
 
 Arely Vasquez developed the EDA(Week 3).ipynb jupyter notebook.
-
 Andrey Pristinsky developed the EDA_Week3_Part2.ipynb jupyter notebook.
-
 Both team members were involved in constructing the format of this repository. 
 
 
