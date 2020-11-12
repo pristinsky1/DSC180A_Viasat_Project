@@ -19,9 +19,11 @@ def main(targets):
     
 
     if 'data' in targets:
-
-        data = generate_data(**data_config)
-        save_data(data, **data_config)
+        
+        #***Our way of generating and saving data is network_stats.py
+        
+        #data = generate_data(**data_config)
+        #save_data(data, **data_config)
 
     if 'eda' in targets:
 
