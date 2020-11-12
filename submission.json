@@ -3,5 +3,5 @@
     "build": "run.py", # path of your build script
     "library": ["src"], # directory containing (your) library code
     "notebook": ["Analysis.ipynb"], # path to at least one notebook meant for reading by someone other than you.
-    "targets": ["target1", "target2"] # at least two targets
+    "targets": ["analysis", "data", "features", "utils"] # at least two targets
 }
