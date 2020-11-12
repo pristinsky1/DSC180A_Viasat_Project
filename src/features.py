@@ -37,4 +37,4 @@ def binarymean_packetsizes(modify_data(raw_data), mean_num):
   
   
 def binarymin_packetsizes(modify_data(raw_data), min_num):
-return (modify_data(raw_data)["packet_sizes"].min() <= min_num)
+    return (modify_data(raw_data)["packet_sizes"].min() <= min_num)
