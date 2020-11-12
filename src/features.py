@@ -30,6 +30,4 @@ def big_byte_count_feature(dataset):
                 two_count += 1
         packet_size_count1.append(one_count)
         packet_size_count2.append(two_count)
-    green = "1->2ByteCount_0-300"
-    blue = "2->1ByteCount_1200-1500"
     return df.assign(Dir1_ByteCount_0to300 = packet_size_count1, Dir2_ByteCount_1200to1500 = packet_size_count2)
