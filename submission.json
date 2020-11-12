@@ -2,6 +2,6 @@
     "config": ["config/data-params.json", "config/analysis-params.json", "config/features-params.json"],  
     "build": "run.py", # path of your build script
     "library": ["src"], # directory containing (your) library code
-    "notebook": ["Analysis.ipynb"] # path to at least one notebook meant for reading by someone other than you.
+    "notebook": ["Analysis.ipynb"], # path to at least one notebook meant for reading by someone other than you.
     "targets": ["target1", "target2"] # at least two targets
 }
