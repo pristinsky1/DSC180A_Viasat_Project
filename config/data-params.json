@@ -1,5 +1,3 @@
 {
-    "year": 2020,
-    "location": "San Diego",
-    "group": "Students"
+    "raw_data": ["data/int1.csv", "data/int2.csv", "data/int3.csv", "data/vid1.csv", "data/vid2.csv", "data/vid3.csv", "data/apristin-youtube[1440p60]-1x-vpn-windows-noisy-20201102.csv", "data/apristin-novideo-vpn-windows-20201109.csv"]
 }
