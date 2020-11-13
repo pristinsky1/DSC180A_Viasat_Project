@@ -28,17 +28,13 @@ def main(targets):
         #data = generate_data(**data_config)
         #save_data(data, **data_config)
 
-    if 'eda' in targets:
+       
+    if "analysis" in targets:
 
-        try:
-            data
-        except NameError:
-            data = pd.read_csv(data_config['data_fp'])
+       
+    if "features" in targets:
 
-        generate_stats(data, **eda_config)
-        
-        # execute notebook / convert to html
-        convert_notebook(**eda_config)
+       
 
 
 if __name__ == '__main__':
