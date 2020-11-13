@@ -20,7 +20,10 @@ def main(targets):
 
     if 'data' in targets:
         
-        #***Our way of generating and saving data is network_stats.py
+  
+        # create the symlink
+        os.symlink(indir, outdir)
+
         
         #data = generate_data(**data_config)
         #save_data(data, **data_config)
