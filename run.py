@@ -22,7 +22,7 @@ def main(targets):
         
   
         # create the symlink
-        os.symlink(raw_data, outdir, target_is_directory = False)
+        os.symlink(raw_data, outdir, target_is_directory = True)
 
         
         #data = generate_data(**data_config)
