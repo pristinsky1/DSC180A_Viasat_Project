@@ -33,7 +33,7 @@ def main(targets):
         try:
             data
         except NameError:
-            data = pd.read_csv(data_config['data_fp'])
+            data = pd.read_csv(data_config['raw_data'])
 
         generate_stats(data, **eda_config)
         
