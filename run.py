@@ -20,9 +20,9 @@ def main(targets):
 
     if 'data' in targets:
         
-  
         # create the symlink
-        link = os.symlink(raw_data, outdir, target_is_directory = True)
+   
+        link = os.symlink(data_config['raw_data'], outdir, target_is_directory = True)
         data = get_data(link)
         data = modify_data(data)
 
@@ -32,7 +32,7 @@ def main(targets):
 
     if 'analysis' in targets:
         
-        analysis_config 
+        findings = analysis_config['dataset']
         
         
 
@@ -47,6 +47,8 @@ def main(targets):
 #         convert_notebook(**eda_config)
         
      if 'features' in targets:
+            
+            new_features = features_config["mean_num"]
 
 
 if __name__ == '__main__':
