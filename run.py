@@ -22,19 +22,23 @@ def main(targets):
         
   
         # create the symlink
-        os.symlink(indir, outdir)
+        os.symlink(raw_data, outdir, target_is_directory = False)
 
         
         #data = generate_data(**data_config)
         #save_data(data, **data_config)
 
-       
-    if "analysis" in targets:
+    if 'eda' in targets:
 
-       
-    if "features" in targets:
+        try:
+            data
+        except NameError:
+            data = pd.read_csv(data_config['data_fp'])
 
-       
+        generate_stats(data, **eda_config)
+        
+        # execute notebook / convert to html
+        convert_notebook(**eda_config)
 
 
 if __name__ == '__main__':
