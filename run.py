@@ -22,23 +22,31 @@ def main(targets):
         
   
         # create the symlink
-        os.symlink(raw_data, outdir, target_is_directory = True)
+        link = os.symlink(raw_data, outdir, target_is_directory = True)
+        data = get_data(link)
+        data = modify_data(data)
 
         
         #data = generate_data(**data_config)
         #save_data(data, **data_config)
 
-    if 'eda' in targets:
-
-        try:
-            data
-        except NameError:
-            data = pd.read_csv(data_config['raw_data'])
-
-        generate_stats(data, **eda_config)
+    if 'analysis' in targets:
         
-        # execute notebook / convert to html
-        convert_notebook(**eda_config)
+        analysis_config 
+        
+        
+
+#         try:
+#             data
+#         except NameError:
+#             data = pd.read_csv(data_config['raw_data'])
+
+#         generate_stats(data, **eda_config)
+        
+#         # execute notebook / convert to html
+#         convert_notebook(**eda_config)
+        
+     if 'features' in targets:
 
 
 if __name__ == '__main__':
