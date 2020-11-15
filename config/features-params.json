@@ -1,4 +1,6 @@
 {
   "mean_num" : 500,
-  "min_num" : 32
+  "min_num" : 32,
+  "direction": 1,
+"features_output_path": "/data/features/features.csv"
 }
