@@ -3,10 +3,9 @@
 
 #### Arely Vasquez and Andrey Pristinsky
 
-Our analysis and code is shown under the notebooks folder. They consist of data regarding VPN and its variables in order to perform EDA. It shows graphs regarding different variables and visual representations. 
+In this repository, we have created a machine learning model in order to classify whether a dataset of network stats collected while using a VPN contains streaming or not streaming.
 
-The code consists of importing pandas, matplotlib as well as using the datasets to display the graphs of the bytes being sent between the source computer and the destination. To run this code, all that is needed is to access the notebooks folder and then run the jupyter notebooks that will display the graphs.
-
+In order to run this model on your own network_stats dataset. 
 
 
 ## Allowing Reproduction Instructions
