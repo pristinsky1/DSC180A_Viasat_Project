@@ -8,11 +8,6 @@ Our analysis and code is shown under the notebooks folder. They consist of data 
 The code consists of importing pandas, matplotlib as well as using the datasets to display the graphs of the bytes being sent between the source computer and the destination. To run this code, all that is needed is to access the notebooks folder and then run the jupyter notebooks that will display the graphs.
 
 
-Arely Vasquez developed the EDA(Week 3).ipynb jupyter notebook.
-Andrey Pristinsky developed the EDA_Week3_Part2.ipynb jupyter notebook.
-Both team members were involved in constructing the format of this repository. 
-
-
 
 ## Allowing Reproduction Instructions
 
@@ -21,7 +16,7 @@ Open terminal, run these commands in the associated order:
 
 1.) *ssh user@dsmlp-login.ucsd.edu* (user refers to your school username). Enter credentials.
 
-2.) *launch-180.sh -G  B05_VPN_XRAY -i apristin99/dsc180domain_ml*
+2.) *launch-180.sh -G  B05_VPN_XRAY -i apristinsky1/DSC180A_Viasat_Project*
 
 3.) Delete file under input_data folder and add your own. Otherwise, leave as is and use the provided input_dataset.
 
