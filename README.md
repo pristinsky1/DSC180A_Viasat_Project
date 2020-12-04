@@ -1,7 +1,7 @@
 # Viasat VPN Streaming/No Streaming Classifier 
 ### Fall 2020 DSC180A - B05 
 
-### Arely Vasquez and Andrey Pristinsky
+#### Arely Vasquez and Andrey Pristinsky
 
 Our analysis and code is shown under the notebooks folder. They consist of data regarding VPN and its variables in order to perform EDA. It shows graphs regarding different variables and visual representations. 
 
