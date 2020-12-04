@@ -1,4 +1,4 @@
-# ResultReplicationProject
+# Viasat 
 
 Our analysis and code is shown under the notebooks folder. They consist of data regarding VPN and its variables in order to perform EDA. It shows graphs regarding different variables and visual representations. 
 
