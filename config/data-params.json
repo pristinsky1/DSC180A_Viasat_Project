@@ -1,4 +1,5 @@
 {
-    "raw_data" : "/teams/DSC180A_FA20_A00/b05vpnxray/group6_data",
-    "is_streaming": "yes"
+    "input_path": "input_data/",
+    "test_path": "test/testdata",
+    "train_path": "/teams/DSC180A_FA20_A00/b05vpnxray/data/unzipped"
 }
