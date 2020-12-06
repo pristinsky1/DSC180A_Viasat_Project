@@ -19,23 +19,24 @@ def ml_model_analysis(X, y):
   
 #Trains the model on all the data found within the GoodData on dsmlp, and then predicts 
 #whether streaming or not for the input data chunk entered
-def ml_model_train(X, y, input_X, input_y, filename):
+def ml_model_train(feature_csv, filename):
+    feature_df = pd.read_csv(feature_csv)
     model = RandomForestClassifier()
-    model = model.fit(X[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']],y)
+    model = model.fit(feature_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']], feature_df['labels'])
     # save the model to temp/model folder
     joblib.dump(model, filename)
     return
 
-def classifer(input_file, filename):
+def classifer(input_df, filename):
     loaded_model = joblib.load(filename)
-    prediction = loaded_model.predict(input_file[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']])
+    prediction = loaded_model.predict(input_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']])
     for i in range(0, len(prediction)):
-        if bool(prediction[i]) == bool(input_y[i]):
+        if bool(prediction[i]) == bool(input_df['labels'][i]):
             val = "Yes"
         else:
             val = "No"
-        print("Input File Name: " + str(input_file['input_file_name), 
+        print("Input File Name: " + str(input_df['input_file_name'][i]), 
               "is_streaming? Prediction Value: " + str(bool(prediction[i])), 
-              "is_streaming? True Value: " + str(bool(input_y[i])), 
+              "is_streaming? True Value: " + str(bool(input_df['labels'][i])), 
               "classified correctly? : " + val)
     return
