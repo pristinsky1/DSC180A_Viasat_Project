@@ -25,31 +25,28 @@ def main(targets):
     create_temp_directory()
     
     if 'test' in targets:
-        file_names, file_labels, new_df = features_labels(feature_cfg['input_path'])
-        new_df.to_csv(feature_cfg['test_out_path'])
+        new_df = features_labels(data_cfg['test_path'], data_cfg['test_out_path'])
         print("The associated test file names are: ") 
-        print(file_names)
+        print(new_df['data_file_name'])
         print("The associated test file labels are: ") 
-        print(file_labels)
+        print(new_df['labels'])
         print("Created the new test features! Check folder test/output/ and observe the output features csv file!")
     
     if 'features' in targets:
-        
-        data_names, data_labels, data_df = features_labels(feature_cfg['train_path'])
-        input_names, input_labels, input_df = input_feature_label(feature_cfg['input_path'])
+        train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
+        input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
 
     if 'train' in targets:
-        final_result = ml_model_train(data_df, data_labels, input_df, input_labels)
-        print(final_result)
+        ml_model_train(feature_cfg['feature_path'], model_cfg['trained_model'])
     
     if 'result' in targets:
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
-        classifier(input_df, filename)
+        classifier(input_df, model_cfg['trained_model'])
         
 
     if 'analysis' in targets:
-        data_names, data_labels, data_df = features_labels(feature_cfg['train_path'])
-        prediction_labels, test_labels = ml_model_analysis(data_df, data_labels)
+        data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
+        prediction_labels, test_labels = ml_model_analysis(data_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']], data_df['labels'])
         
     return
 
