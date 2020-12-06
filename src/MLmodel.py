@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-import pickle
+import joblib
 
 #Trains, tests, and splits the data up so that RandomForestClassifier can be used 
 #to train on the data and then determine how accurate the model is
@@ -23,11 +23,11 @@ def ml_model_train(X, y, input_X, input_y, filename):
     model = RandomForestClassifier()
     model = model.fit(X[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']],y)
     # save the model to temp/model folder
-    pickle.dump(model, open(filename, 'wb'))
+    joblib.dump(model, filename)
     return
 
 def classifer(input_model, filename):
-    loaded_model = pickle.load(open(filename, 'rb'))
+    loaded_model = joblib.load(filename)
     prediction = loaded_model.predict(input_X[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']])
     for i in range(0, len(prediction)):
         if bool(prediction[i]) == bool(input_y[i]):
