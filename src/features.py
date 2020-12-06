@@ -35,13 +35,12 @@ def big_byte_count_feature(dataset):
   
   
   # input: filepaths
-# output: 4 lists -> associated file names, labels, feature1, feature2
+# output: dataframe with columns -> associated file names, labels, feature1, feature2
 # uses the big_byte_count_feature as a helper function
 def features_labels(filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     labels = []
-    file_names = []
     files = os.listdir(filepath)
     for file in files:
         if ('novpn' in file) or (file[:2] == '._'):
@@ -50,23 +49,22 @@ def features_labels(filepath):
             labels.append(0)
         else:
             labels.append(1)
-        file_names.append(file)
         df = pd.read_csv(filepath + '/' + file)
         sum_values = big_byte_count_feature(df)
         Dir1_ByteCount_0to300_feature.append(sum_values[0])
         Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
-    feature_df = pd.DataFrame(data={'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
+    feature_label_df = pd.DataFrame(data={'labels': labels, 'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature})
-    return file_names, labels, feature_df 
+    return feature_label_df 
 
 # accesses the data file found within the data folder and creates the features and label for it
 # uses the big_byte_count_feature as a helper function
-def input_feature_label(filepath):
+def input_feature_label(input_filepath, output_filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     labels = []
     file_names = []
-    files = os.listdir(filepath)
+    files = os.listdir(input_filepath)
     for file in files:
         if ('novpn' in file) or (file[:2] == '._'):
             return "File Invalid. Must be vpn data, nor can it be empty."
@@ -75,13 +73,14 @@ def input_feature_label(filepath):
         else:
             labels.append(1)
         file_names.append(file)
-        df = pd.read_csv(filepath + file)
+        df = pd.read_csv(input_filepath + file)
         sum_values = big_byte_count_feature(df)
         Dir1_ByteCount_0to300_feature.append(sum_values[0])
         Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
-    feature_df = pd.DataFrame(data={'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
+    feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature})
-    return file_names, labels, feature_df
+    feature_label_df.to_csv(path_or_buf=output_filepath
+    return feature_label_df
 
 
 
