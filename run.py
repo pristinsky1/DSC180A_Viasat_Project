@@ -5,7 +5,7 @@ import os
 import pandas as pd
 
 sys.path.insert(0, 'src')
-from data import get_data modify_data
+from data import create_temp_directory modify_data
 from analysis import no_streaming_viz streaming_viz pktdir_vs_pktsze_int pktdir_vs_pktsze_vid
 from utils import convert_notebook
 from features import features_labels input_feature_label binarymean_packetsizes binarymin_packetsizes
