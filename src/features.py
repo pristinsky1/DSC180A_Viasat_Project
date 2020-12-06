@@ -37,11 +37,12 @@ def big_byte_count_feature(dataset):
   # input: filepaths
 # output: dataframe with columns -> associated file names, labels, feature1, feature2
 # uses the big_byte_count_feature as a helper function
-def features_labels(filepath):
+def features_labels(input_filepath, output_filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     labels = []
-    files = os.listdir(filepath)
+    file_names = []
+    files = os.listdir(input_filepath)
     for file in files:
         if ('novpn' in file) or (file[:2] == '._'):
             continue
@@ -49,13 +50,16 @@ def features_labels(filepath):
             labels.append(0)
         else:
             labels.append(1)
-        df = pd.read_csv(filepath + '/' + file)
+        file_names.append(file)
+        df = pd.read_csv(input_filepath + '/' + file)
         sum_values = big_byte_count_feature(df)
         Dir1_ByteCount_0to300_feature.append(sum_values[0])
         Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
-    feature_label_df = pd.DataFrame(data={'labels': labels, 'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
+    feature_label_df = pd.DataFrame(data={'data_file_name': file_names,'labels': labels, 'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature})
-    return feature_label_df 
+    #look into using index=False, not sure if I need it here but could be something important
+    feature_label_df.to_csv(path_or_buf=output_filepath)
+    return feature_label_df
 
 # accesses the data file found within the data folder and creates the features and label for it
 # uses the big_byte_count_feature as a helper function
