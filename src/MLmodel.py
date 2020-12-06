@@ -26,13 +26,16 @@ def ml_model_train(X, y, input_X, input_y, filename):
     joblib.dump(model, filename)
     return
 
-def classifer(input_model, filename):
+def classifer(input_file, filename):
     loaded_model = joblib.load(filename)
-    prediction = loaded_model.predict(input_X[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']])
+    prediction = loaded_model.predict(input_file[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']])
     for i in range(0, len(prediction)):
         if bool(prediction[i]) == bool(input_y[i]):
             val = "Yes"
         else:
             val = "No"
-        print("is_streaming? Prediction Value: " + str(bool(prediction[i])), "is_streaming? True Value: " + str(bool(input_y[i])), "classified correctly? : " + val)
+        print("Input File Name: " + str(input_file['input_file_name), 
+              "is_streaming? Prediction Value: " + str(bool(prediction[i])), 
+              "is_streaming? True Value: " + str(bool(input_y[i])), 
+              "classified correctly? : " + val)
     return
