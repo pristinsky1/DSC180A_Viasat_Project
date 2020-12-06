@@ -2,32 +2,33 @@ import pandas as pd
 import os
 
 
-def get_data(indir, outdir):
+def create_temp_directory():
     '''
-    Reads the data by creating a symlink between the 
-    location of the downloaded data and /data
+    Creates the temp directory that will be found on your local machine where the intermediate
+    steps will be stored such as the features and the ml model
     '''
     # first create the data directory
-    directory = "data"
+    directory = "temp"
     parent_dir = "./"
     path = os.path.join(parent_dir, directory)
-
+    
+     #remove temp dir if one already exists
+    if (os.path.exists(path) and os.path.isdir(path)):
+        shutil.rmtree(path)
+    
     os.mkdir(path)
 
     # create a convenient hierarchical structure of folders inside /data
-    directory1 = "raw"
-    directory2 = "temp"
-    directory3 = "out"
+    directory1 = "features"
+    directory2 = "model"
+    directory3 = "classifier_output"
     parent_dir = "./data/"
     
     os.mkdir(os.path.join(parent_dir, directory1))
     os.mkdir(os.path.join(parent_dir, directory2))
     os.mkdir(os.path.join(parent_dir, directory3))
-    
-    # create the symlink
-    os.symlink(indir, outdir) 
         
-    return pd.read_csv(outdir)
+    return
 
 
 
