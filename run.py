@@ -31,6 +31,7 @@ def main(targets):
         print("Created the new test features! Check folder test/output/ and observe the output features csv file!")
     
     if 'features' in targets:
+        
         data_names, data_labels, data_df = features_labels(feature_cfg['train_path'])
         input_names, input_labels, input_df = input_feature_label(feature_cfg['input_path'])
 
