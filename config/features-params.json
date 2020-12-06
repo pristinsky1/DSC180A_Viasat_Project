@@ -1,5 +1,4 @@
 {
-  "mean_num" : 500,
-  "min_num" : 32,
-  "direction": 1
+  "feature_path": "temp/features/data_features_labels.csv",
+  "input_feature_path": "temp/features/input_features_labels.csv"
 }
