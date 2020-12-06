@@ -79,7 +79,7 @@ def input_feature_label(input_filepath, output_filepath):
         Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
     feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature})
-    feature_label_df.to_csv(path_or_buf=output_filepath
+    feature_label_df.to_csv(path_or_buf=output_filepath)
     return feature_label_df
 
 
