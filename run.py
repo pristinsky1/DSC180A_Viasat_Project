@@ -21,6 +21,9 @@ def main(targets):
     feature_cfg = json.load(open('config/features-params.json'))
     model_cfg = json.load(open('config/model-params.json'))
     
+    #creates the local temp directory for intermediate steps to be placed
+    create_temp_directory()
+    
     if 'test' in targets:
         file_names, file_labels, new_df = features_labels(feature_cfg['input_path'])
         new_df.to_csv(feature_cfg['test_out_path'])
