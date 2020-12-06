@@ -9,8 +9,7 @@ from data import get_data modify_data
 from analysis import no_streaming_viz streaming_viz pktdir_vs_pktsze_int pktdir_vs_pktsze_vid
 from utils import convert_notebook
 from features import features_labels input_feature_label binarymean_packetsizes binarymin_packetsizes
-from all  import ml_model_analysis
-from all import ml_model_train
+from MLmodel import ml_model_analysis ml_model_train classifier
 
 def main(targets):
     '''
@@ -18,8 +17,9 @@ def main(targets):
     '''
     
     #grabs the parameters from the data config file
-    feature_cfg = json.load(open('config/data-params.json'))
-    
+    data_cfg = json.load(open('config/data-params.json'))
+    feature_cfg = json.load(open('config/features-params.json'))
+    model_cfg = json.load(open('config/model-params.json'))
     
     if 'test' in targets:
         file_names, file_labels, new_df = features_labels(feature_cfg['input_path'])
@@ -29,12 +29,19 @@ def main(targets):
         print("The associated test file labels are: ") 
         print(file_labels)
         print("Created the new test features! Check folder test/output/ and observe the output features csv file!")
-
-    if 'result' in targets:
+    
+    if 'features' in targets:
         data_names, data_labels, data_df = features_labels(feature_cfg['train_path'])
         input_names, input_labels, input_df = input_feature_label(feature_cfg['input_path'])
+
+    if 'train' in targets:
         final_result = ml_model_train(data_df, data_labels, input_df, input_labels)
         print(final_result)
+    
+    if 'result' in targets:
+        input_df = pd.read_csv(feature_cfg['input_feature_path'])
+        classifier(input_df, filename)
+        
 
     if 'analysis' in targets:
         data_names, data_labels, data_df = features_labels(feature_cfg['train_path'])
