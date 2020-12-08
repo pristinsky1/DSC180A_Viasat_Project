@@ -46,7 +46,8 @@ def main(targets):
 
     if 'analysis' in targets:
         data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
-        prediction_labels, test_labels = ml_model_analysis(data_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature']], data_df['labels'])
+        prediction_labels, test_labels = ml_model_analysis(data_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature',
+                                                                    'max_prominence_feature']], data_df['labels'])
         
     return
 
