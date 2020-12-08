@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from scipy import signal
 
 # This function returns a dataframe with the packets times, sizes, and directions for a single row of data.
 # This will be used within our other functions to help create the features.
@@ -71,7 +72,7 @@ def features_labels(input_filepath, output_filepath):
         s = df_temp['2->1Bytes']
         fs = 2
         f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = find_peaks(np.sqrt(Pxx_den), prominence=1000)
+        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
         max_prominence = properties['prominences'].max()
         #appends the created value to feature list
         max_prominence_feature.append(max_prominence)
@@ -116,7 +117,7 @@ def input_feature_label(input_filepath, output_filepath):
         s = df_temp['2->1Bytes']
         fs = 2
         f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = find_peaks(np.sqrt(Pxx_den), prominence=1000)
+        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
         max_prominence = properties['prominences'].max()
         #appends the created value to feature list
         max_prominence_feature.append(max_prominence)
