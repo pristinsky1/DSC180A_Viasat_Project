@@ -49,7 +49,7 @@ def features_labels(input_filepath, output_filepath):
         #eliminates files that don't match the structure of the datasets we are working with
         if ('novpn' in file) or (file[:2] == '._'):
             continue
-        if 'novideo' in file:
+        if ('novideo' in file) or ('browsing' in file) or ('internet' in file):
             labels.append(0)
         else:
             labels.append(1)
@@ -94,7 +94,7 @@ def input_feature_label(input_filepath, output_filepath):
         #eliminates files that don't match the structure of the datasets we are working with
         if ('novpn' in file) or (file[:2] == '._'):
             return "File Invalid. Must be vpn data, nor can it be empty."
-        if 'novideo' in file:
+        if ('novideo' in file) or ('browsing' in file) or ('internet' in file):
             labels.append(0)
         else:
             labels.append(1)
