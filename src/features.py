@@ -33,145 +33,7 @@ def big_byte_count_feature(dataset):
         packet_size_count1.append(one_count)
         packet_size_count2.append(two_count)
     return [sum(packet_size_count1), sum(packet_size_count2)]
-  
-  
-  # input: filepaths
-# output: dataframe with columns -> associated file names, labels, feature1, feature2
-# uses the big_byte_count_feature as a helper function
-def features_labels(input_filepath, output_filepath):
-    Dir1_ByteCount_0to300_feature = []
-    Dir2_ByteCount_1200to1500_feature = []
-    max_prominence_feature = []
-    labels = []
-    file_names = []
-    files = os.listdir(input_filepath)
-    for file in files:
-        #eliminates files that don't match the structure of the datasets we are working with
-        if ('novpn' in file) or (file[:2] == '._'):
-            continue
-        if ('novideo' in file) or ('browsing' in file) or ('internet' in file):
-            labels.append(0)
-        else:
-            labels.append(1)
-        file_names.append(file)
-        df = pd.read_csv(input_filepath + '/' + file)
-        #checks to see if file is empty, then eliminates it if empty
-        if len(df) == 0:
-            labels.pop()
-            file_names.pop()
-            continue
-        #this section creates the two bytecount features
-        sum_values = big_byte_count_feature(df)
-        #appends the created values to feature list
-        Dir1_ByteCount_0to300_feature.append(sum_values[0])
-        Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
-        #this section creates the max_prominence_feature value in a frequency domain for each dataset
-        df_temp = df[['Time', '2->1Bytes']].set_index('Time')
-        df_temp.index = pd.to_datetime(df_temp.index,unit='s')
-        df_temp = df_temp.resample('500ms').sum()
-        s = df_temp['2->1Bytes']
-        fs = 2
-        f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
-        max_prominence = properties['prominences'].max()
-        #appends the created value to feature list
-        max_prominence_feature.append(max_prominence)
-    feature_label_df = pd.DataFrame(data={'data_file_name': file_names,'labels': labels, 'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
-                                    'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature})
-    #look into using index=False, not sure if I need it here but could be something important
-    feature_label_df.to_csv(path_or_buf=output_filepath)
-    return feature_label_df
-
-# accesses the data file found within the data folder and creates the features and label for it
-# uses the big_byte_count_feature as a helper function
-def input_feature_label(input_filepath, output_filepath):
-    Dir1_ByteCount_0to300_feature = []
-    Dir2_ByteCount_1200to1500_feature = []
-    max_prominence_feature = []
-    
-    prop0_200 = []
-    binary_min = []
-    max_pksize = []
-    prop200_400 = []
-    propall0_200 = []
-    prop1200 = []
-    
-    
-    labels = []
-    file_names = []
-    files = os.listdir(input_filepath)
-    for file in files:
-        #eliminates files that don't match the structure of the datasets we are working with
-        if ('novpn' in file) or (file[:2] == '._'):
-            return "File Invalid. Must be vpn data, nor can it be empty."
-        if ('novideo' in file) or ('browsing' in file) or ('internet' in file):
-            labels.append(0)
-        else:
-            labels.append(1)
-        file_names.append(file)
-        df = pd.read_csv(input_filepath + file)
-        #checks to see if file is empty, then eliminates it if empty
-        if len(df) == 0:
-            labels.pop()
-            file_names.pop()
-            return "File is empty!"
-        #this section creates the two bytecount features
-        sum_values = big_byte_count_feature(df)
-        #appends the created values to feature list
-        Dir1_ByteCount_0to300_feature.append(sum_values[0])
-        Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
-        #this section creates the max_prominence_feature value in a frequency domain for each dataset
-        df_temp = df[['Time', '2->1Bytes']].set_index('Time')
-        df_temp.index = pd.to_datetime(df_temp.index,unit='s')
-        df_temp = df_temp.resample('500ms').sum()
-        s = df_temp['2->1Bytes']
-        fs = 2
-        f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
-        max_prominence = properties['prominences'].max()
-        
-        #this section creates the prop0_200 feature
-        modified_data = modify_data(df)
-      
-        prop0_200_value = prop_pksize_dir12(modified_data, 200)
-        prop0_200.append(prop0_200_value)
-        
-        #this section creates the binarymin_packetsizes feature
-        binary_min_value = binarymin_packetsizes(modified_data, 400)
-        binary_min.append(binary_min_value)
-        
-        #this section creates the binary_max_pkszfeature
-        max_pksize_value = binary_max_pksz(modified_data, 1400)
-        max_pksize.append(max_pksize_value)
-        
-        #this section creates the prop_range200_400_dir1
-        prop200_400_value = prop_range200_400_dir1(modified_data, 200, 600)
-        prop200_400.append(prop200_400_value)
-        
-        #this section creates the prop_200toentire
-        propall0_200_value = prop_200toentire(modified_data, 200)
-        propall0_200.append(propall0_200_value)
-        
-        #this section creates the prop_200toentire
-        propall0_200_value = prop_200toentire(modified_data, 200)
-        propall0_200.append(propall0_200_value)
-        
-        #this section creates the prop_1200toentire
-        prop1200_value = prop_1200toentire(modified_data, 1200)
-        prop1200.append(prop1200_value)
-        
  
-        #appends the created value to feature list
-        max_prominence_feature.append(max_prominence)
-    feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
-                                    'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature
-                                         'Proportion0_200' : prop0_200, 'Binary_min' : binary_min, 'Max_packet_size' : max_pksize,
-                                          'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
- 
-    feature_label_df.to_csv(path_or_buf=output_filepath)
-    return feature_label_df
-
-
 #Helper Function in order to prepare data for the features
 #input is the raw data from network_stats
 def modify_data(dataset):
@@ -235,6 +97,158 @@ def prop_200toentire(tbl, threshold6):
 def prop_1200toentire(tbl, threshold7):
     proportion = tbl[tbl["packet_sizes"] > threshold7]["packet_dir"].size/tbl["packet_sizes"].size
     return proportion
+  
+  # input: filepaths
+# output: dataframe with columns -> associated file names, labels, feature1, feature2
+# uses the big_byte_count_feature as a helper function
+def features_labels(input_filepath, output_filepath):
+    Dir1_ByteCount_0to300_feature = []
+    Dir2_ByteCount_1200to1500_feature = []
+    max_prominence_feature = []
+    binary_min = []
+    binary_max = []
+    prop200_400 = []
+    propall0_200 = []
+    prop1200 = []
+    labels = []
+    file_names = []
+    files = os.listdir(input_filepath)
+    for file in files:
+        #eliminates files that don't match the structure of the datasets we are working with
+        if ('novpn' in file) or (file[:2] == '._'):
+            continue
+        if ('novideo' in file) or ('browsing' in file) or ('internet' in file):
+            labels.append(0)
+        else:
+            labels.append(1)
+        file_names.append(file)
+        df = pd.read_csv(input_filepath + '/' + file)
+        #checks to see if file is empty, then eliminates it if empty
+        if len(df) == 0:
+            labels.pop()
+            file_names.pop()
+            continue
+        #this section creates the two bytecount features
+        sum_values = big_byte_count_feature(df)
+        #appends the created values to feature list
+        Dir1_ByteCount_0to300_feature.append(sum_values[0])
+        Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
+        #this section creates the max_prominence_feature value in a frequency domain for each dataset
+        df_temp = df[['Time', '2->1Bytes']].set_index('Time')
+        df_temp.index = pd.to_datetime(df_temp.index,unit='s')
+        df_temp = df_temp.resample('500ms').sum()
+        s = df_temp['2->1Bytes']
+        fs = 2
+        f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
+        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
+        max_prominence = properties['prominences'].max()
+        #appends the created value to feature list
+        max_prominence_feature.append(max_prominence)
+        
+        #this section creates the binary_min feature
+        modified_data = modify_data(df)
+        binary_min_pksz_value = binarymin_packetsizes(modified_data, 32)
+        binary_min.append(binary_min_pksz_value)
+
+        #this section creates the binarymax_packetsizes feature
+        binary_max_pksz_value = binary_max_pksz(modified_data, 1400)
+        binary_max.append(binary_max_pksz_value)
+      
+        #this section creates the prop_range200_400_dir1
+        prop200_400_value = prop_range200_400_dir1(modified_data, 200, 600)
+        prop200_400.append(prop200_400_value)
+          
+        #this section creates the prop_200toentire
+        propall0_200_value = prop_200toentire(modified_data, 200)
+        propall0_200.append(propall0_200_value)
+        
+        #this section creates the prop_1200toentire
+        prop1200_value = prop_1200toentire(modified_data, 1200)
+        prop1200.append(prop1200_value)
+        
+    feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
+                                    'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature,
+                                          'Binary min' :binary_min, 'Binary_max' : binary_max, 
+                                          'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
+
+    #look into using index=False, not sure if I need it here but could be something important
+    feature_label_df.to_csv(path_or_buf=output_filepath)
+    return feature_label_df
+
+# accesses the data file found within the data folder and creates the features and label for it
+# uses the big_byte_count_feature as a helper function
+def input_feature_label(input_filepath, output_filepath):
+    Dir1_ByteCount_0to300_feature = []
+    Dir2_ByteCount_1200to1500_feature = []
+    max_prominence_feature = [] 
+    binary_min = []
+    binary_max = []
+    prop200_400 = []
+    propall0_200 = []
+    prop1200 = []
+    labels = []
+    file_names = []
+    files = os.listdir(input_filepath)
+    for file in files:
+        #eliminates files that don't match the structure of the datasets we are working with
+        if ('novpn' in file) or (file[:2] == '._'):
+            return "File Invalid. Must be vpn data, nor can it be empty."
+        if ('novideo' in file) or ('browsing' in file) or ('internet' in file):
+            labels.append(0)
+        else:
+            labels.append(1)
+        file_names.append(file)
+        df = pd.read_csv(input_filepath + file)
+        #checks to see if file is empty, then eliminates it if empty
+        if len(df) == 0:
+            labels.pop()
+            file_names.pop()
+            return "File is empty!"
+        #this section creates the two bytecount features
+        sum_values = big_byte_count_feature(df)
+        #appends the created values to feature list
+        Dir1_ByteCount_0to300_feature.append(sum_values[0])
+        Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
+        #this section creates the max_prominence_feature value in a frequency domain for each dataset
+        df_temp = df[['Time', '2->1Bytes']].set_index('Time')
+        df_temp.index = pd.to_datetime(df_temp.index,unit='s')
+        df_temp = df_temp.resample('500ms').sum()
+        s = df_temp['2->1Bytes']
+        fs = 2
+        f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
+        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
+        max_prominence = properties['prominences'].max()
+        
+         #this section creates the binary_min feature
+        modified_data = modify_data(df)
+        binary_min_pksz_value = binarymin_packetsizes(modified_data, 32)
+        binary_min.append(binary_min_pksz_value)
+
+        #this section creates the binarymax_packetsizes feature
+        binary_max_pksz_value = binary_max_pksz(modified_data, 1400)
+        binary_max.append(binary_max_pksz_value)
+      
+        #this section creates the prop_range200_400_dir1
+        prop200_400_value = prop_range200_400_dir1(modified_data, 200, 600)
+        prop200_400.append(prop200_400_value)
+          
+        #this section creates the prop_200toentire
+        propall0_200_value = prop_200toentire(modified_data, 200)
+        propall0_200.append(propall0_200_value)
+        
+        #this section creates the prop_1200toentire
+        prop1200_value = prop_1200toentire(modified_data, 1200)
+        prop1200.append(prop1200_value)
+ 
+        #appends the created value to feature list
+        max_prominence_feature.append(max_prominence)
+    feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
+                                    'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature,
+                                          'Binary min' :binary_min, 'Binary_max' : binary_max,'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
+
+ 
+    feature_label_df.to_csv(path_or_buf=output_filepath)
+    return feature_label_df
 
     
 
