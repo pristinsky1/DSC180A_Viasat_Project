@@ -15,7 +15,7 @@ Open terminal, run these commands in the associated order:
 
 1.) **ssh user@dsmlp-login.ucsd.edu** (user refers to your school username). Enter credentials.
 
-2.) **launch-180.sh -G  B05_VPN_XRAY -i apristin99/DSC180A_Viasat_Project**
+2.) **launch-180.sh -G  B05_VPN_XRAY -i apristin99/dsc180a_viasat_project**
 
 3.) Delete file under input_data folder and add your own. Otherwise, leave as is and use the provided input_dataset.
 
