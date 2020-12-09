@@ -56,27 +56,27 @@ def modify_data(dataset):
 
 #feature comparing proportions of upload/download packet sizes
 #threshold1 parameter is 200
-def prop_pksize_dir12(tbl, threshold1):
-    proportion = tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[2]/ tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[1]
-    return proportion
+# def prop_pksize_dir12(tbl, threshold1):
+#     proportion = tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[2]/ tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[1]
+#     return proportion
 
 #feature comparing mean packet sizes
-#threshold2 value is 400
-def binarymean_packetsizes(tbl, threshold2):
-    output = (tbl["packet_sizes"] > threshold2).replace({True: 1, False: 0})
+#threshold2 value is 32
+def binarymin_packetsizes(tbl, threshold2):
+    output = (tbl["packet_sizes"].min() <= threshold2)
     if output == 1:
-        return "Streaming"
+        return 1
     else:
-        return "Not Streaming"
+        return 0
  
 #feature comparing the maximum packet sizes for
 #threshold3 parameter is 1400
 def binary_max_pksz(tbl, threshold3):
     num_packets = tbl[tbl["packet_sizes"] >= threshold3].size
     if num_packets > 0:
-        return "Streaming"
+        return 1
     else:
-        return "Not Streaming"
+        return 0
     
 #feature looking at ratio of packet sizes in range 200-400 bytes  
 #threshold4 = 200
