@@ -48,7 +48,16 @@ def main(targets):
         data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         prediction_labels, test_labels = ml_model_analysis(data_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature',
                                                                     'max_prominence_feature']], data_df['labels'])
-        
+    
+    if 'all' in targets:
+        train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
+        input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
+        ml_model_train(feature_cfg['feature_path'], model_cfg['trained_model'])
+        data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
+        prediction_labels, test_labels = ml_model_analysis(data_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature',
+                                                                    'max_prominence_feature']], data_df['labels'])
+        input_df = pd.read_csv(feature_cfg['input_feature_path'])
+        classifier(input_df, model_cfg['trained_model'])
     return
 
 if __name__=='__main__':
