@@ -56,9 +56,9 @@ def modify_data(dataset):
 
 #feature comparing proportions of upload/download packet sizes
 #threshold1 parameter is 200
-# def prop_pksize_dir12(tbl, threshold1):
-#     proportion = tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[2]/ tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[1]
-#     return proportion
+def prop_pksize_dir12(tbl, threshold1):
+    proportion = tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[2]/ tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[1]
+    return proportion
 
 #feature comparing mean packet sizes
 #threshold2 value is 32
@@ -105,6 +105,8 @@ def features_labels(input_filepath, output_filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     max_prominence_feature = []
+    
+    prop0_200 = []
     binary_min = []
     binary_max = []
     prop200_400 = []
@@ -145,8 +147,12 @@ def features_labels(input_filepath, output_filepath):
         #appends the created value to feature list
         max_prominence_feature.append(max_prominence)
         
-        #this section creates the binary_min feature
+        #this section creates the prop0_200 feature
         modified_data = modify_data(df)
+        prop0_200_value = prop_pksize_dir12(modified_data, 200)
+        prop0_200.append(prop0_200_value)
+        
+        #this section creates the binary_min feature
         binary_min_pksz_value = binarymin_packetsizes(modified_data, 32)
         binary_min.append(binary_min_pksz_value)
 
@@ -168,6 +174,7 @@ def features_labels(input_filepath, output_filepath):
         
     feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature,
+                                          'Prop0_200' : prop0_200,
                                           'Binary min' :binary_min, 'Binary_max' : binary_max, 
                                           'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
 
@@ -181,6 +188,8 @@ def input_feature_label(input_filepath, output_filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     max_prominence_feature = [] 
+    
+    prop0_200 = []
     binary_min = []
     binary_max = []
     prop200_400 = []
@@ -219,8 +228,12 @@ def input_feature_label(input_filepath, output_filepath):
         peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
         max_prominence = properties['prominences'].max()
         
-         #this section creates the binary_min feature
+        #this section creates the prop0_200 feature
         modified_data = modify_data(df)
+        prop0_200_value = prop_pksize_dir12(modified_data, 200)
+        prop0_200.append(prop0_200_value)
+        
+         #this section creates the binary_min feature
         binary_min_pksz_value = binarymin_packetsizes(modified_data, 32)
         binary_min.append(binary_min_pksz_value)
 
@@ -244,6 +257,7 @@ def input_feature_label(input_filepath, output_filepath):
         max_prominence_feature.append(max_prominence)
     feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature,
+                                          'Prop0_200' : prop0_200,
                                           'Binary min' :binary_min, 'Binary_max' : binary_max,'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
 
  
