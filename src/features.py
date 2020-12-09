@@ -129,6 +129,38 @@ def input_feature_label(input_filepath, output_filepath):
         f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
         peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
         max_prominence = properties['prominences'].max()
+        
+        #this section creates the prop0_200 feature
+        modified_data = modify_data(df)
+      
+        prop0_200_value = prop_pksize_dir12(modified_data, 200)
+        prop0_200.append(prop0_200_value)
+        
+        #this section creates the binarymin_packetsizes feature
+        binary_min_value = binarymin_packetsizes(modified_data, 400)
+        binary_min.append(binary_min_value)
+        
+        #this section creates the binary_max_pkszfeature
+        max_pksize_value = binary_max_pksz(modified_data, 1400)
+        max_pksize.append(max_pksize_value)
+        
+        #this section creates the prop_range200_400_dir1
+        prop200_400_value = prop_range200_400_dir1(modified_data, 200, 600)
+        prop200_400.append(prop200_400_value)
+        
+        #this section creates the prop_200toentire
+        propall0_200_value = prop_200toentire(modified_data, 200)
+        propall0_200.append(propall0_200_value)
+        
+        #this section creates the prop_200toentire
+        propall0_200_value = prop_200toentire(modified_data, 200)
+        propall0_200.append(propall0_200_value)
+        
+        #this section creates the prop_1200toentire
+        prop1200_value = prop_1200toentire(modified_data, 1200)
+        prop1200.append(prop1200_value)
+        
+ 
         #appends the created value to feature list
         max_prominence_feature.append(max_prominence)
     feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
@@ -138,10 +170,6 @@ def input_feature_label(input_filepath, output_filepath):
  
     feature_label_df.to_csv(path_or_buf=output_filepath)
     return feature_label_df
-
-
-
-
 
 
 #Helper Function in order to prepare data for the features
