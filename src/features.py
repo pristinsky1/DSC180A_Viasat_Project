@@ -87,6 +87,7 @@ def features_labels(input_filepath, output_filepath):
 def input_feature_label(input_filepath, output_filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
+    max_prominence_feature = []
     labels = []
     file_names = []
     files = os.listdir(input_filepath)
