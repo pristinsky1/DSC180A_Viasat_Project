@@ -9,9 +9,9 @@ import joblib
 def ml_model_analysis(X, y):
     model = RandomForestClassifier()
     X_tr, X_ts, y_tr, y_ts = train_test_split(X, y, test_size=0.25, random_state=42)
-    model = model.fit(X_tr[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature','max_prominence_feature']],y_tr)
-    prediction_test = model.predict(X_ts[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature','max_prominence_feature']])
-    prediction_train = model.predict(X_tr[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature','max_prominence_feature']])
+    model = model.fit(X_tr.drop(columns = ["input_file_name", "labels"]),y_tr)
+    prediction_test = model.predict(X_ts.drop(columns = ["input_file_name", "labels"]))
+    prediction_train = model.predict(X_tr.drop(columns = ["input_file_name", "labels"]))
     print (("Base test accuracy", metrics.accuracy_score(y_ts, prediction_test)), 
             ("Base Train Accuracy", metrics.accuracy_score(y_tr, prediction_train)))
     return prediction_test, y_ts
@@ -22,14 +22,14 @@ def ml_model_analysis(X, y):
 def ml_model_train(feature_csv, filename):
     feature_df = pd.read_csv(feature_csv)
     model = RandomForestClassifier()
-    model = model.fit(feature_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature','max_prominence_feature']], feature_df['labels'])
+    model = model.fit(feature_df.drop(columns = ["input_file_name", "labels"]), feature_df['labels'])
     # save the model to temp/model folder
     joblib.dump(model, filename)
     return
 
 def classifer(input_df, filename):
     loaded_model = joblib.load(filename)
-    prediction = loaded_model.predict(input_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature','max_prominence_feature']])
+    prediction = loaded_model.predict(input_df.drop(columns = ["input_file_name", "labels"]))
     for i in range(0, len(prediction)):
         if bool(prediction[i]) == bool(input_df['labels'][i]):
             val = "Yes"
