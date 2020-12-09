@@ -88,6 +88,15 @@ def input_feature_label(input_filepath, output_filepath):
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     max_prominence_feature = []
+    
+    prop0_200 = []
+    binary_min = []
+    max_pksize = []
+    prop200_400 = []
+    propall0_200 = []
+    prop1200 = []
+    
+    
     labels = []
     file_names = []
     files = os.listdir(input_filepath)
@@ -123,7 +132,10 @@ def input_feature_label(input_filepath, output_filepath):
         #appends the created value to feature list
         max_prominence_feature.append(max_prominence)
     feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
-                                    'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature})
+                                    'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature
+                                         'Proportion0_200' : prop0_200, 'Binary_min' : binary_min, 'Max_packet_size' : max_pksize,
+                                          'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
+ 
     feature_label_df.to_csv(path_or_buf=output_filepath)
     return feature_label_df
 
@@ -131,10 +143,70 @@ def input_feature_label(input_filepath, output_filepath):
 
 
 
-# Functions Arely Created --> Plz comment these once you get the chance
-def binarymean_packetsizes(modify_data(raw_data), mean_num):
-    return (modified_data(raw_data)["packet_sizes"] > mean_num).replace({True: 1, False: 0})
-  
-  
-def binarymin_packetsizes(modify_data(raw_data), min_num):
-    return (modify_data(raw_data)["packet_sizes"].min() <= min_num)
+
+#Helper Function in order to prepare data for the features
+#input is the raw data from network_stats
+def modify_data(dataset):
+    #we are separating the column "packet sizes"
+    new_pksize = []
+    for i in dataset["packet_sizes"]:
+        arr = i.split(";")
+        for j in arr[:-1]:
+            new_pksize.append(j)
+
+    #we are separating the column "packet dir"
+    new_pkdir = []
+    for i in dataset["packet_dirs"]:
+        arr = i.split(";")
+        for j in arr[:-1]:
+            new_pkdir.append(j)
+
+    modified_data = pd.DataFrame({'packet_sizes': pd.to_numeric(new_pksize), 'packet_dir': pd.to_numeric(new_pkdir)})
+    return modified_data
+
+#feature comparing proportions of upload/download packet sizes
+#threshold1 parameter is 200
+def prop_pksize_dir12(tbl, threshold1):
+    proportion = tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[2]/ tbl[tbl["packet_sizes"] < threshold1]["packet_dir"].value_counts()[1]
+    return proportion
+
+#feature comparing mean packet sizes
+#threshold2 value is 400
+def binarymean_packetsizes(tbl, threshold2):
+    output = (tbl["packet_sizes"] > threshold2).replace({True: 1, False: 0})
+    if output == 1:
+        return "Streaming"
+    else:
+        return "Not Streaming"
+ 
+#feature comparing the maximum packet sizes for
+#threshold3 parameter is 1400
+def binary_max_pksz(tbl, threshold3):
+    num_packets = tbl[tbl["packet_sizes"] >= threshold3].size
+    if num_packets > 0:
+        return "Streaming"
+    else:
+        return "Not Streaming"
+    
+#feature looking at ratio of packet sizes in range 200-400 bytes  
+#threshold4 = 200
+#threshold5 = 600
+def prop_range200_400_dir1(tbl, threshold4, threshold5):
+    a = len(tbl[(tbl["packet_sizes"] > threshold4) & (tbl["packet_sizes"] < threshold5) & (tbl["packet_dir"] == 1)])
+    b = len(tbl[tbl["packet_dir"] == 1])
+    return a/b
+
+#feature looking at ratio of byte size packets of 200 compareed to rest of packets
+#threshold6 = 200
+def prop_200toentire(tbl, threshold6):
+    proportion = tbl[tbl["packet_sizes"] < threshold6]["packet_dir"].size/tbl["packet_sizes"].size
+    return proportion
+
+#feature looking at ratio by byte size of 1200 compared to rest of packets 
+#threshold7 = 1200
+def prop_1200toentire(tbl, threshold7):
+    proportion = tbl[tbl["packet_sizes"] > threshold7]["packet_dir"].size/tbl["packet_sizes"].size
+    return proportion
+
+    
+
