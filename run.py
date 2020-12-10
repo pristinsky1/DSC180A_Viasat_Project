@@ -9,7 +9,7 @@ from data import create_temp_directory
 from analysis import no_streaming_viz, streaming_viz, pktdir_vs_pktsze_int, pktdir_vs_pktsze_vid
 #from utils import convert_notebook
 from features import features_labels, input_feature_label
-from MLmodel import ml_model_analysis, ml_model_train, final_classifier
+from mLModel import ml_model_analysis, ml_model_train, final_classifier
 
 def main(targets):
     '''
