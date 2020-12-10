@@ -22,10 +22,10 @@ def main(targets):
     feature_cfg = json.load(open('config/features-params.json'))
     model_cfg = json.load(open('config/model-params.json'))
     
-    #creates the local temp directory for intermediate steps to be placed
-    create_temp_directory()
     
     if 'test' in targets:
+        #creates the local temp directory for intermediate steps to be placed
+        create_temp_directory()
         new_df = features_labels(data_cfg['test_path'], data_cfg['test_out_path'])
         print("The associated test file names are: ") 
         print(new_df['data_file_name'])
@@ -34,6 +34,9 @@ def main(targets):
         print("Created the new test features! Check folder test/output/ and observe the output features csv file!")
     
     if 'features' in targets:
+        #creates the local temp directory for intermediate steps to be placed
+        create_temp_directory()
+        
         train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
 
@@ -51,6 +54,9 @@ def main(targets):
                                                                     'max_prominence_feature']], data_df['labels'])
     
     if 'all' in targets:
+        #creates the local temp directory for intermediate steps to be placed
+        create_temp_directory()
+        
         train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
         ml_model_train(feature_cfg['feature_path'], model_cfg['trained_model'])
