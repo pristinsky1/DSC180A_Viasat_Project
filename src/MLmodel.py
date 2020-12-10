@@ -27,7 +27,7 @@ def ml_model_train(feature_csv, filename):
     joblib.dump(model, filename)
     return
 
-def classifer(input_df, filename):
+def final_classifer(input_df, filename):
     loaded_model = joblib.load(filename)
     prediction = loaded_model.predict(input_df.drop(columns = ["input_file_name", "labels"]))
     for i in range(0, len(prediction)):
