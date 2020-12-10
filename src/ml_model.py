@@ -21,7 +21,7 @@ def ml_model_analysis(X, y):
 #whether streaming or not for the input data chunk entered
 def ml_model_train(feature_csv, filename):
     feature_df = pd.read_csv(feature_csv)
-    model = RandomForestClassifier()
+    model = RandomForestClassifier(criterion = 'entropy', max_depth= None, min_samples_split= 3, n_estimators= 20, random_state=42)
     model = model.fit(feature_df.drop(columns = ["input_file_name", "labels"]), feature_df['labels'])
     # save the model to temp/model folder
     joblib.dump(model, filename)
