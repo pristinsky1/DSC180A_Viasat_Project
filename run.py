@@ -10,7 +10,7 @@ from analysis import no_streaming_viz, streaming_viz, pktdir_vs_pktsze_int, pktd
 #from utils import convert_notebook
 from features import features_labels, input_feature_label
 from mLModel import ml_model_analysis, ml_model_train
-from mlModel import final_classifier
+from mLModel import final_classifier
 
 def main(targets):
     '''
