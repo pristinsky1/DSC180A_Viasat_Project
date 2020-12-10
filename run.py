@@ -9,7 +9,7 @@ from data import create_temp_directory
 from analysis import no_streaming_viz, streaming_viz, pktdir_vs_pktsze_int, pktdir_vs_pktsze_vid
 #from utils import convert_notebook
 from features import features_labels, input_feature_label
-from MLmodel import ml_model_analysis, ml_model_train, classifier
+from MLmodel import ml_model_analysis, ml_model_train, final_classifier
 
 def main(targets):
     '''
@@ -41,7 +41,7 @@ def main(targets):
     
     if 'result' in targets:
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
-        classifier(input_df, model_cfg['trained_model'])
+        final_classifier(input_df, model_cfg['trained_model'])
         
 
     if 'analysis' in targets:
@@ -57,7 +57,7 @@ def main(targets):
         prediction_labels, test_labels = ml_model_analysis(data_df[['Dir1_ByteCount_0to300_feature','Dir2_ByteCount_1200to1500_feature',
                                                                     'max_prominence_feature']], data_df['labels'])
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
-        classifier(input_df, model_cfg['trained_model'])
+        final_classifier(input_df, model_cfg['trained_model'])
     return
 
 if __name__=='__main__':
