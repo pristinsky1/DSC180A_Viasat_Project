@@ -18,11 +18,11 @@ def create_temp_directory():
     
     os.mkdir(path)
 
-    # create a convenient hierarchical structure of folders inside /data
+    # create a convenient hierarchical structure of folders inside /temp
     directory1 = "features"
     directory2 = "model"
     directory3 = "classifier_output"
-    parent_dir = "./data/"
+    parent_dir = "./temp/"
     
     os.mkdir(os.path.join(parent_dir, directory1))
     os.mkdir(os.path.join(parent_dir, directory2))
