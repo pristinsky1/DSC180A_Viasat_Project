@@ -7,7 +7,7 @@ import joblib
 #Trains, tests, and splits the data up so that RandomForestClassifier can be used 
 #to train on the data and then determine how accurate the model is
 def ml_model_analysis(X, y):
-    model = RandomForestClassifier()
+    model = RandomForestClassifier(criterion = 'entropy', max_depth= None, min_samples_split= 3, n_estimators= 20, random_state=42)
     X_tr, X_ts, y_tr, y_ts = train_test_split(X, y, test_size=0.25, random_state=42)
     model = model.fit(X_tr.drop(columns = ["input_file_name", "labels"]),y_tr)
     prediction_test = model.predict(X_ts.drop(columns = ["input_file_name", "labels"]))
