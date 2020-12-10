@@ -142,7 +142,7 @@ def features_labels(input_filepath, output_filepath):
         s = df_temp['2->1Bytes']
         fs = 2
         f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
+        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=100)
         max_prominence = properties['prominences'].max()
         #appends the created value to feature list
         max_prominence_feature.append(max_prominence)
@@ -225,7 +225,7 @@ def input_feature_label(input_filepath, output_filepath):
         s = df_temp['2->1Bytes']
         fs = 2
         f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1000)
+        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=100)
         max_prominence = properties['prominences'].max()
         
         #this section creates the prop0_200 feature
