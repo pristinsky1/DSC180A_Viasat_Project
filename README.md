@@ -5,7 +5,7 @@
 
 In this repository, we have created a machine learning model in order to classify whether a dataset of network stats collected while using a VPN contains streaming or not streaming.
 
-In order to run this model on your own network_stats dataset. 
+In order to run this model on your own network_stats dataset, follow the steps below.
 
 
 ## Allowing Reproduction Instructions
