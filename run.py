@@ -28,9 +28,9 @@ def main(targets):
         create_temp_directory()
         features_labels(data_cfg['test_path'], data_cfg['test_out_path'])
         print("The associated test file names are: ") 
-        print(new_df['data_file_name'])
+        print(data_df['data_file_name'])
         print("The associated test file labels are: ") 
-        print(new_df['labels'])
+        print(data_df['labels'])
         print("Created the new test features! Check folder test/output/ and observe the output features csv file!")
         
         train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
