@@ -26,20 +26,15 @@ def main(targets):
     if 'test' in targets:
         #creates the local temp directory for intermediate steps to be placed
         create_temp_directory()
-        features_labels(data_cfg['test_path'], data_cfg['test_out_path'])
-        print("The associated test file names are: ") 
-        print(new_df['data_file_name'])
-        print("The associated test file labels are: ") 
-        print(new_df['labels'])
-        print("Created the new test features! Check folder test/output/ and observe the output features csv file!")
-        
-        train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
-        input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
+        train_df = features_labels(data_cfg['test_path'], feature_cfg['feature_path'])
+        input_feature_df = input_feature_label(data_cfg['test_input_path'], feature_cfg['input_feature_path'])
+        print("Created the new test features! Check folder temp/features/ and observe the output features csv file!")
         ml_model_train(feature_cfg['feature_path'], model_cfg['trained_model'])
-        data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
-        prediction_labels, test_labels = ml_model_analysis(data_df, data_df['labels'])
+        print("Trained the test data on the model! The model is locally saved in temp/model/")
+        #prediction_labels, test_labels = ml_model_analysis(train_df, train_df['labels'])
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
         final_classifier(input_df, model_cfg['trained_model'], model_cfg['output_file_path'])
+        print("Predicted the output of the input file! This is saved locally in your temp/classifier_output")
     
     if 'features' in targets:
         #creates the local temp directory for intermediate steps to be placed
