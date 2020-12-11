@@ -39,7 +39,7 @@ def main(targets):
         data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         prediction_labels, test_labels = ml_model_analysis(data_df, data_df['labels'])
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
-        final_classifier(input_df, model_cfg['trained_model'])
+        final_classifier(input_df, model_cfg['trained_model'], model_cfg['output_file_path'])
     
     if 'features' in targets:
         #creates the local temp directory for intermediate steps to be placed
@@ -53,7 +53,7 @@ def main(targets):
     
     if 'result' in targets:
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
-        final_classifier(input_df, model_cfg['trained_model'])
+        final_classifier(input_df, model_cfg['trained_model'], model_cfg['output_file_path'])
         
 
     if 'analysis' in targets:
@@ -70,7 +70,7 @@ def main(targets):
         data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         prediction_labels, test_labels = ml_model_analysis(data_df, data_df['labels'])
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
-        final_classifier(input_df, model_cfg['trained_model'])
+        final_classifier(input_df, model_cfg['trained_model'], model_cfg['output_file_path'])
     return
 
 if __name__=='__main__':

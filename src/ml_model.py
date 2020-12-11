@@ -27,16 +27,27 @@ def ml_model_train(feature_csv, filename):
     joblib.dump(model, filename)
     return
 
-def final_classifier(input_df, filename):
+def final_classifier(input_df, filename, output_file_path):
     loaded_model = joblib.load(filename)
     prediction = loaded_model.predict(input_df.drop(columns = ["input_file_name", "labels"]))
+    file_name = []
+    pred_val = []
+    true_val = []
+    correct = []
     for i in range(0, len(prediction)):
+        file_name.append(input_df['input_file_name'][i])
+        pred_val.append(prediction[i])
+        true_val.append(input_df['labels'][i])
         if bool(prediction[i]) == bool(input_df['labels'][i]):
             val = "Yes"
+            correct.append(val)
         else:
             val = "No"
+            correct.append(val)
         print("Input File Name: " + str(input_df['input_file_name'][i]), 
               "is_streaming? Prediction Value: " + str(bool(prediction[i])), 
               "is_streaming? True Value: " + str(bool(input_df['labels'][i])), 
               "classified correctly? : " + val)
+    classifier_tbl = pd.DataFrame({"Input File Name" : file_name, "Prediction Value" : pred_val, "True Value" : true_val, "classified correctly?" : correct})
+    classifier_tbl.to_csv(output_file_path)
     return
