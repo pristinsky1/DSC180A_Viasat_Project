@@ -2,5 +2,6 @@
     "input_path": "input_data/",
     "train_path": "/teams/DSC180A_FA20_A00/b05vpnxray/data/unzipped",
     "test_path": "test/testdata",
-    "test_out_path": "test/output/test_output.csv"
+    "test_feature_out_path": "test/feature_output/test_output.csv",
+    "test_input_path": "test/input_test_file/"
 }
