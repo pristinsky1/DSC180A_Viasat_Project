@@ -58,14 +58,15 @@ def main(targets):
     if 'all' in targets:
         #creates the local temp directory for intermediate steps to be placed
         create_temp_directory()
-        
         train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
+        print("Created the new features! Check folder temp/features/ and observe the output features csv file!")
         ml_model_train(feature_cfg['feature_path'], model_cfg['trained_model'])
-        data_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
-        prediction_labels, test_labels = ml_model_analysis(data_df, data_df['labels'])
+        print("Trained the data on the model! The model is locally saved in temp/model/")
+        #prediction_labels, test_labels = ml_model_analysis(data_df, data_df['labels'])
         input_df = pd.read_csv(feature_cfg['input_feature_path'])
         final_classifier(input_df, model_cfg['trained_model'], model_cfg['output_file_path'])
+        print("Predicted the output of the input file! This is saved locally in your temp/classifier_output")
     return
 
 if __name__=='__main__':
