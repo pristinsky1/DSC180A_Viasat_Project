@@ -28,5 +28,6 @@ Open terminal, run these commands in the associated order:
 To test out how the features are built on test data, run **python run.py test**
 
 To see the accuracy of how the classifier is performing, run **python run.py analysis**
+* Note: In order to run **python run.py analysis** you must run **python run.py features** first
 
 These instructions are provided to run the entire repository. To see my analysis, look within the notebooks folder and click on analysis.ipynb.
