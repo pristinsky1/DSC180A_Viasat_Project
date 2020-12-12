@@ -125,6 +125,7 @@ def features_labels(input_filepath, output_filepath):
         #if test data is used, ignore this feature
         if is_test == True:
             max_prominence_feature.append("test_data")
+            prop0_200.append("test_data")
         else:
             #this section creates the max_prominence_feature value in a frequency domain for each dataset
             df_temp = df[['Time', '2->1Bytes']].set_index('Time')
@@ -137,11 +138,14 @@ def features_labels(input_filepath, output_filepath):
             max_prominence = properties['prominences'].max()
             #appends the created value to feature list
             max_prominence_feature.append(max_prominence)
+            #this section creates the prop0_200 feature
+            modified_data = modify_data(df)
+            prop0_200_value = prop_pksize_dir12(modified_data, 200)
+            prop0_200.append(prop0_200_value)
         
         #this section creates the prop0_200 feature
         modified_data = modify_data(df)
-        prop0_200_value = prop_pksize_dir12(modified_data, 200)
-        prop0_200.append(prop0_200_value)
+       
       
         #this section creates the prop_range200_400_dir1
         prop200_400_value = prop_range200_400_dir1(modified_data, 200, 600)
@@ -161,7 +165,7 @@ def features_labels(input_filepath, output_filepath):
     
     #don't use the max prominence feature if working on test data
     if is_test == True:
-        feature_label_df = feature_label_df.drop(columns='max_prominence_feature')
+        feature_label_df = feature_label_df.drop(columns=['max_prominence_feature', 'Prop0_200'])
     
     #look into using index=False, not sure if I need it here but could be something important
     feature_label_df.to_csv(path_or_buf=output_filepath)
@@ -209,6 +213,7 @@ def input_feature_label(input_filepath, output_filepath):
          #if test data is used, ignore this feature
         if is_test == True:
             max_prominence_feature.append("test_data")
+            prop0_200.append("test_data")
         else:
             #this section creates the max_prominence_feature value in a frequency domain for each dataset
             df_temp = df[['Time', '2->1Bytes']].set_index('Time')
@@ -221,11 +226,14 @@ def input_feature_label(input_filepath, output_filepath):
             max_prominence = properties['prominences'].max()
             #appends the created value to feature list
             max_prominence_feature.append(max_prominence)
+            #this section creates the prop0_200 feature
+            modified_data = modify_data(df)
+            prop0_200_value = prop_pksize_dir12(modified_data, 200)
+            prop0_200.append(prop0_200_value)
         
         #this section creates the prop0_200 feature
         modified_data = modify_data(df)
-        prop0_200_value = prop_pksize_dir12(modified_data, 200)
-        prop0_200.append(prop0_200_value)
+        
         
         #this section creates the prop_range200_400_dir1
         prop200_400_value = prop_range200_400_dir1(modified_data, 200, 600)
@@ -245,7 +253,7 @@ def input_feature_label(input_filepath, output_filepath):
     
     #don't use the max prominence feature if working on test data
     if is_test == True:
-        feature_label_df = feature_label_df.drop(columns='max_prominence_feature')
+        feature_label_df = feature_label_df.drop(columns=['max_prominence_feature', 'Prop0_200'])
  
     feature_label_df.to_csv(path_or_buf=output_filepath)
     return feature_label_df
