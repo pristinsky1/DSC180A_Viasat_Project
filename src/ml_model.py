@@ -45,5 +45,5 @@ def final_classifier(input_df, filename, output_file_path):
             val = "No"
             correct.append(val)
     classifier_tbl = pd.DataFrame({"Input File Name" : file_name, "Prediction Value" : pred_val, "True Value" : true_val, "classified correctly?" : correct})
-    classifier_tbl.to_excel(output_file_path)
+    classifier_tbl.to_csv(output_file_path)
     return

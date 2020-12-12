@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 from scipy import signal
+import pylab as pl
 
 # This function returns a dataframe with the packets times, sizes, and directions for a single row of data.
 # This will be used within our other functions to help create the features.
