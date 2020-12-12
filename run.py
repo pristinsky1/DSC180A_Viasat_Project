@@ -42,6 +42,7 @@ def main(targets):
         
         train_df = features_labels(data_cfg['train_path'], feature_cfg['feature_path'])
         input_feature_df = input_feature_label(data_cfg['input_path'], feature_cfg['input_feature_path'])
+        print("Created the new features! Check folder temp/features/ and observe the output features csv file!")
 
     if 'train' in targets:
         ml_model_train(feature_cfg['feature_path'], model_cfg['trained_model'])
