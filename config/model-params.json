@@ -1,4 +1,4 @@
 {
   "trained_model": "temp/model/finalized_model.sav", 
-  "output_file_path" : "temp/classifier_output/classifier_predict.csv"
+  "output_file_path" : "temp/classifier_output/classifier_predict.xlsx"
 }
