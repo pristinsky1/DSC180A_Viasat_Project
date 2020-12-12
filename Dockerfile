@@ -22,7 +22,7 @@ RUN	apt-get update && apt-get install -y \
     nmap \
     traceroute
 # 3) install packages
-RUN pip install --no-cache-dir scipy
+RUN pip install --no-cache-dir scipy pylab-sdk
 
 # 4) change back to notebook user
 COPY /run_jupyter.sh /
