@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import pylab as pl
 
 def no_streaming_viz(dataset):
   #Example of byte count feature extraction on the no streaming dataset:
