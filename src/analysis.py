@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
-import sys
-sys.path.insert(0, '../src')
 from features import big_byte_count_feature
 
 def no_streaming_viz(dataset):
