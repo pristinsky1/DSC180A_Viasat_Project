@@ -111,7 +111,7 @@ def features_labels(input_filepath, output_filepath):
         else:
             labels.append(1)
         file_names.append(file)
-        df = pd.read_csv(input_filepath + '/' + file)
+        df = pd.read_csv(input_filepath + '/' + file, engine='python')
         #checks to see if file is empty, then eliminates it if empty
         if len(df) == 0:
             labels.pop()
