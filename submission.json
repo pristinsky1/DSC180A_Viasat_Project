@@ -1,7 +1,4 @@
 {
-    "config": ["config/data-params.json", "config/analysis-params.json", "config/features-params.json", "config/model-params.json"],  
-    "build": "run.py", 
-    "library": ["src"], 
-    "notebook": ["notebooks/Analysis.ipynb"], 
-    "targets": [ "data","analysis", "features", "all"]
+    "dockerhub-id": "apristin99/dsc180a_viasat_project",
+    "repository-id": "https://github.com/pristinsky1/DSC180A_Viasat_Project.git"
 }
