@@ -21,13 +21,17 @@ Open terminal, run these commands in the associated order:
 
 4.) **cd DSC180A_Viasat_Project**
 
-5.) Delete file under input_data folder and add your own. Otherwise, leave as is and use the provided input_dataset.
 
-6.) **python run.py result** --> This will run the classifier and have it predict what the input_data file is.
+Here are a different ways to use our model:
 
-To test out how the features are built on test data, run **python run.py test**
-
-To see the accuracy of how the classifier is performing, run **python run.py analysis**
-* Note: In order to run **python run.py analysis** you must run **python run.py features** first
-
-These instructions are provided to run the entire repository. To see my analysis, look within the notebooks folder and click on analysis.ipynb.
+a.) If you would like to classify your own input file using our model:
+    i.) Delete file under input_data folder and add your own. Otherwise, leave as is and use the provided input_dataset.
+    ii.) run **python run.py features**
+    iii.) run **python run.py analysis**
+     To see analysis, look within the notebooks folder and click on analysis.ipynb.
+    
+b.) To run the model on our test data:
+    i.) run **python run.py test**
+    ii.) A print statement will appear letting you know that the model is locally saved in temp/model/
+        The predicted  output of the input file will saved locally in your temp/classifier_output
+ 
