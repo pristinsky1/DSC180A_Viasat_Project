@@ -25,13 +25,19 @@ Open terminal, run these commands in the associated order:
 Here are a different ways to use our model:
 
 a.) If you would like to classify your own input file using our model:
+
     i.) Delete file under input_data folder and add your own. Otherwise, leave as is and use the provided input_dataset.
+    
     ii.) run **python run.py features**
+    
     iii.) run **python run.py analysis**
+    
      To see analysis, look within the notebooks folder and click on analysis.ipynb.
     
 b.) To run the model on our test data:
+
     i.) run **python run.py test**
+    
     ii.) A print statement will appear letting you know that the model is locally saved in temp/model/
         The predicted  output of the input file will saved locally in your temp/classifier_output
  
