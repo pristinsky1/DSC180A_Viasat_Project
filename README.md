@@ -36,7 +36,8 @@ a.) If you would like to classify your own input file using our model:
     
     v.) run **python run.py analysis**
     
-    By runningsteps ii-v, you will see return statements that give you more information and details on the accuracy of the model and its performance.
+    By running steps ii-v, you will see return statements between each step that give you more information and details on the accuracy of the model and its performance.
+    
     Another option woulbd be to skip steps ii-v and simply run run **python run.py all**
     
      To see analysis, look within the notebooks folder and click on analysis.ipynb.
