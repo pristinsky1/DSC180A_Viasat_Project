@@ -170,6 +170,12 @@ def features_labels(input_filepath, output_filepath):
 # accesses the data file found within the data folder and creates the features and label for it
 # uses the big_byte_count_feature as a helper function
 def input_feature_label(input_filepath, output_filepath):
+    #checks if run through is test data. This is needed because the test data is really small, meaning that
+    #one of our features would error and not be able to be created from how small that test data is.
+    if (input_filepath == "test/input_test_file/"):
+        is_test = True
+    else:
+        is_test = False
     Dir1_ByteCount_0to300_feature = []
     Dir2_ByteCount_1200to1500_feature = []
     max_prominence_feature = [] 
@@ -200,15 +206,21 @@ def input_feature_label(input_filepath, output_filepath):
         #appends the created values to feature list
         Dir1_ByteCount_0to300_feature.append(sum_values[0])
         Dir2_ByteCount_1200to1500_feature.append(sum_values[1])
-        #this section creates the max_prominence_feature value in a frequency domain for each dataset
-        df_temp = df[['Time', '2->1Bytes']].set_index('Time')
-        df_temp.index = pd.to_datetime(df_temp.index,unit='s')
-        df_temp = df_temp.resample('500ms').sum()
-        s = df_temp['2->1Bytes']
-        fs = 2
-        f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
-        peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1)
-        max_prominence = properties['prominences'].max()
+         #if test data is used, ignore this feature
+        if is_test == True:
+            max_prominence_feature.append("test_data")
+        else:
+            #this section creates the max_prominence_feature value in a frequency domain for each dataset
+            df_temp = df[['Time', '2->1Bytes']].set_index('Time')
+            df_temp.index = pd.to_datetime(df_temp.index,unit='s')
+            df_temp = df_temp.resample('500ms').sum()
+            s = df_temp['2->1Bytes']
+            fs = 2
+            f, Pxx_den = signal.welch(s, fs, nperseg=len(s))
+            peaks, properties = signal.find_peaks(np.sqrt(Pxx_den), prominence=1)
+            max_prominence = properties['prominences'].max()
+            #appends the created value to feature list
+            max_prominence_feature.append(max_prominence)
         
         #this section creates the prop0_200 feature
         modified_data = modify_data(df)
@@ -227,12 +239,13 @@ def input_feature_label(input_filepath, output_filepath):
         prop1200_value = prop_1200toentire(modified_data, 1200)
         prop1200.append(prop1200_value)
  
-        #appends the created value to feature list
-        max_prominence_feature.append(max_prominence)
     feature_label_df = pd.DataFrame(data={'input_file_name': file_names,'labels': labels,'Dir1_ByteCount_0to300_feature': Dir1_ByteCount_0to300_feature,
                                     'Dir2_ByteCount_1200to1500_feature': Dir2_ByteCount_1200to1500_feature, 'max_prominence_feature': max_prominence_feature,
                                           'Prop0_200' : prop0_200, 'Prop200_400' : prop200_400, 'PropAll0_200' : propall0_200, 'Prop1200' : prop1200})
-
+    
+    #don't use the max prominence feature if working on test data
+    if is_test == True:
+        feature_label_df = feature_label_df.drop(columns='max_prominence_feature')
  
     feature_label_df.to_csv(path_or_buf=output_filepath)
     return feature_label_df
