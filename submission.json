@@ -3,5 +3,5 @@
     "build": "run.py", 
     "library": ["src"], 
     "notebook": ["notebooks/Analysis.ipynb"], 
-    "targets": [ "data","analysis", "features"]
+    "targets": [ "data","analysis", "features", "all"]
 }
