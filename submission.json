@@ -1,5 +1,5 @@
 {
-    "config": ["config/data-params.json", "config/analysis-params.json", "config/features-params.json"],  
+    "config": ["config/data-params.json", "config/analysis-params.json", "config/features-params.json", "config/model-params.json"],  
     "build": "run.py", 
     "library": ["src"], 
     "notebook": ["notebooks/Analysis.ipynb"], 
