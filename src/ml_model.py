@@ -44,10 +44,6 @@ def final_classifier(input_df, filename, output_file_path):
         else:
             val = "No"
             correct.append(val)
-        print("Input File Name: " + str(input_df['input_file_name'][i]), 
-              "is_streaming? Prediction Value: " + str(bool(prediction[i])), 
-              "is_streaming? True Value: " + str(bool(input_df['labels'][i])), 
-              "classified correctly? : " + val)
     classifier_tbl = pd.DataFrame({"Input File Name" : file_name, "Prediction Value" : pred_val, "True Value" : true_val, "classified correctly?" : correct})
     classifier_tbl.to_csv(output_file_path)
     return
